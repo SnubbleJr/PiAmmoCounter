@@ -137,16 +137,16 @@ class Digit:
     
     pin_map = []
     
-    def __init__(self, pin_a, pin_b, pin_c, pin_d, pin_e, pin_f, pin_g, pin_dc):
+    def __init__(self, pin_map):
         self.pin_map = [
-            Pin(pin_a, Pin.OUT),
-            Pin(pin_b, Pin.OUT),
-            Pin(pin_c, Pin.OUT),
-            Pin(pin_d, Pin.OUT),
-            Pin(pin_e, Pin.OUT),
-            Pin(pin_f, Pin.OUT),
-            Pin(pin_g, Pin.OUT),
-            Pin(pin_dc, Pin.OUT)
+            Pin(pin_map[0], Pin.OUT),
+            Pin(pin_map[1], Pin.OUT),
+            Pin(pin_map[2], Pin.OUT),
+            Pin(pin_map[3], Pin.OUT),
+            Pin(pin_map[4], Pin.OUT),
+            Pin(pin_map[5], Pin.OUT),
+            Pin(pin_map[6], Pin.OUT),
+            Pin(pin_map[7], Pin.OUT)
             ]
         
     def set_digit(self, number):
