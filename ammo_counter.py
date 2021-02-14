@@ -5,7 +5,7 @@ import time
 import math
    
 digit1 = Digit([0,0,0,0,0,0,0,0],1000)
-digit2 = Digit([0,0,0,0,0,0,0,0],1000)
+digit2 = Digit([1,1,1,1,1,1,1,1],1000)
 
 trigger_button = Button(0, Pin.IN, Pin.PULL_DOWN, 0)
 magazine_button = Button(0, Pin.IN, Pin.PULL_DOWN, 0)
@@ -93,7 +93,7 @@ def wake_up():
 def display_number(number):
     first_digit = math.floor(number / 10)
     second_digit = number % 10
-    
+        
     digit1.set_digit(first_digit, current_brightness)
     digit2.set_digit(second_digit, current_brightness)    
     
@@ -103,9 +103,11 @@ def set_ammo(number):
     display_number(current_ammo)  
     
 def decrease_ammo():
+    wake_up()
     if current_ammo > 0:
-        wake_up()
-        set_ammo(current_ammo - 1)
+        set_ammo(current_ammo -1)
+    else:
+        set_ammo(current_ammo)
 
 def reset_ammo():
     wake_up()

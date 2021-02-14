@@ -137,14 +137,22 @@ class Digit:
     
     pin_map = []
     
-    def __init__(self, pin_map, pwm_frequency):
-        for i in range(0, len(pin_map)):
-            pwn = PWM(Pin(pin_map[i]))
-            pwn.freq(pwm_frequency)
-            self.pin_map.insert(0, pwn)
+    def __init__(self, segment_pin_map, pwm_frequency):
+        self.pin_map = [
+            PWM(Pin(segment_pin_map[0])),
+            PWM(Pin(segment_pin_map[1])),
+            PWM(Pin(segment_pin_map[2])),
+            PWM(Pin(segment_pin_map[3])),
+            PWM(Pin(segment_pin_map[4])),
+            PWM(Pin(segment_pin_map[5])),
+            PWM(Pin(segment_pin_map[6])),
+            PWM(Pin(segment_pin_map[7]))]
         
-    def set_digit(self, number, brightness = 1):
+        for pwm in self.pin_map:
+            pwm.freq(pwm_frequency)
+                
+    def set_digit(self, number, brightness = 0):
         segment_map = self.number_map[number]
         
         for i in range(0, len(segment_map)):
-            self.pin_map[i].duty_u16((int)(65025 * brightness))
+            self.pin_map[i].duty_u16((int)(65024 * (1 - (brightness * ( 1 - segment_map[i])))))
