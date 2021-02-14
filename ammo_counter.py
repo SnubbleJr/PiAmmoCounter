@@ -89,6 +89,7 @@ def wake_up():
     
     time_idle = 0
     current_brightness = 1
+    
 def display_number(number):
     first_digit = math.floor(number / 10)
     second_digit = number % 10
