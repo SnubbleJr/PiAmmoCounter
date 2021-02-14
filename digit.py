@@ -1,127 +1,127 @@
-from machine import Pin
+from machine import Pin, PWM
 
 class Digit:
     
     number_map = {
         0: [
-            False,
-            False,
-            False,
-            False,
-            False,
-            False,
-            True,
-            True
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1
             ],
         1: [
-            True,
-            False,
-            False,
-            True,
-            True,
-            True,
-            True,
-            True
+            1,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1
             ],
         2: [
-            False,
-            False,
-            True,
-            False,
-            False,
-            True,
-            False,
-            True
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            1
             ],
         3: [
-            False,
-            False,
-            False,
-            False,
-            True,
-            True,
-            False,
-            True
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1
             ],
         4: [
-            True,
-            False,
-            False,
-            True,
-            True,
-            False,
-            False,
-            True
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            1
             ],
         5: [
-            False,
-            True,
-            False,
-            False,
-            True,
-            False,
-            False,
-            True
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1
             ],
         6: [
-            False,
-            True,
-            False,
-            False,
-            False,
-            False,
-            False,
-            True
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
             ],
         7: [
-            False,
-            False,
-            False,
-            True,
-            True,
-            True,
-            True,
-            True
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1
             ],
         8: [
-            False,
-            False,
-            False,
-            False,
-            False,
-            False,
-            False,
-            True
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
             ],
         9: [
-            False,
-            False,
-            False,
-            False,
-            True,
-            False,
-            False,
-            True
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1
             ],
         ".": [            
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            False
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0
             ],
         "": [
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
             ]
         }
     
@@ -137,21 +137,14 @@ class Digit:
     
     pin_map = []
     
-    def __init__(self, pin_map):
-        self.pin_map = [
-            Pin(pin_map[0], Pin.OUT),
-            Pin(pin_map[1], Pin.OUT),
-            Pin(pin_map[2], Pin.OUT),
-            Pin(pin_map[3], Pin.OUT),
-            Pin(pin_map[4], Pin.OUT),
-            Pin(pin_map[5], Pin.OUT),
-            Pin(pin_map[6], Pin.OUT),
-            Pin(pin_map[7], Pin.OUT)
-            ]
+    def __init__(self, pin_map, pwm_frequency):
+        for i in range(0, len(pin_map)):
+            pwn = PWM(Pin(pin_map[i]))
+            pwn.freq(pwm_frequency)
+            self.pin_map.insert(0, pwn)
         
-    def set_digit(self, number):
+    def set_digit(self, number, brightness = 1):
         segment_map = self.number_map[number]
         
         for i in range(0, len(segment_map)):
-            self.pin_map[i].value(segment_map[i])
-        
+            self.pin_map[i].duty_u16((int)(65025 * brightness))
